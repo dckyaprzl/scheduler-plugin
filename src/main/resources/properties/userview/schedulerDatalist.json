@@ -92,7 +92,8 @@
       "id": "column_1",
       "label": "@@userview.scheduler.cron@@",
       "name": "trigger",
-      "sortable": "true"
+      "sortable": "true",
+      "hidden": "true"
     },
     {
       "id": "column_3",

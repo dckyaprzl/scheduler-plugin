@@ -59,7 +59,7 @@
                   "className": "org.joget.apps.form.lib.DefaultValidator",
                   "properties": {
                     "message": "",
-                    "mandatory": "true",
+                    "mandatory": "false",
                     "custom-regex": "",
                     "type": ""
                   }
