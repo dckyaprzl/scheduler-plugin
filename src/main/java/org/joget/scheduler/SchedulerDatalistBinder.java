@@ -23,15 +23,15 @@ public class SchedulerDatalistBinder extends DataListBinderDefault {
     private JobDefinitionDao dao = null;
     private JobDefinitionLogDao logDao = null;
     private String jobId;
-    
+
     SchedulerDatalistBinder() {
-        
+
     }
-    
+
     SchedulerDatalistBinder(String jobId) {
         this.jobId = jobId;
     }
-    
+
     public String getName() {
         return "SchedulerDatalistBinder";
     }
@@ -63,9 +63,9 @@ public class SchedulerDatalistBinder extends DataListBinderDefault {
     public String getPropertyOptions() {
         return null;
     }
-    
+
     @Override
-    public DataListCollection getData(DataList dataList, Map properties, DataListFilterQueryObject[] filterQueryObjects, String sort, Boolean desc, Integer start, Integer rows) {
+    public DataListCollection getData(DataList dataList, Map properties, DataListFilterQueryObject[] filterQueryObjects, String sort, Boolean asc, Integer start, Integer rows) {
         alterOracleSession();
         DataListCollection resultList = new DataListCollection();
 
@@ -74,15 +74,15 @@ public class SchedulerDatalistBinder extends DataListBinderDefault {
 
             Collection data = null;
             if (jobId == null) {
-                data = getDao().find(criteria.getQuery(), criteria.getValues(), sort, desc, start, rows);
+                data = getDao().find(criteria.getQuery(), criteria.getValues(), sort, asc, start, rows);
             } else {
-                data = getLogDao().findByJobId(jobId, criteria.getQuery(), criteria.getValues(), sort, desc, start, rows);
+                data = getLogDao().findByJobId(jobId, criteria.getQuery(), criteria.getValues(), sort, asc, start, rows);
             }
 
             if (data != null & !data.isEmpty()) {
                 resultList.addAll(data);
             }
-            
+
         } catch (Exception e) {
             LogUtil.error(getClassName(), e, "");
         }
@@ -94,7 +94,7 @@ public class SchedulerDatalistBinder extends DataListBinderDefault {
     public int getDataTotalRowCount(DataList dataList, Map properties, DataListFilterQueryObject[] filterQueryObjects) {
         alterOracleSession();
         int count = 0;
-        
+
         try {
             DataListFilterQueryObject criteria = getCriteria(properties, filterQueryObjects);
 
@@ -108,33 +108,33 @@ public class SchedulerDatalistBinder extends DataListBinderDefault {
             if (total != null) {
                 count = (int) (total + 0);
             }
-            
+
         } catch (Exception e) {
             LogUtil.error(getClassName(), e, "");
         }
-        
+
         return count;
     }
-    
+
     @Override
     public String getColumnName(String name) {
         return "e." + name;
     }
-    
+
     protected JobDefinitionDao getDao() {
         if (dao == null) {
             dao = (JobDefinitionDao) AppContext.getInstance().getAppContext().getBean("jobDefinitionDao");
         }
         return dao;
     }
-    
+
     protected JobDefinitionLogDao getLogDao() {
         if (logDao == null) {
             logDao = (JobDefinitionLogDao) AppContext.getInstance().getAppContext().getBean("jobDefinitionLogDao");
         }
         return logDao;
     }
-    
+
     protected DataListFilterQueryObject getCriteria(Map properties, DataListFilterQueryObject[] filterQueryObjects) {
         Collection<String> params = new ArrayList<String>();
         String condition = "";
@@ -155,12 +155,12 @@ public class SchedulerDatalistBinder extends DataListBinderDefault {
         }
         return queryObject;
     }
-    
+
     protected void alterOracleSession() {
         try {
             DataSource ds = (DataSource) AppUtil.getApplicationContext().getBean("setupDataSource");
             String driver = BeanUtils.getProperty(ds, "driverClassName");
-            
+
             if (driver.equals("oracle.jdbc.driver.OracleDriver")) {
                 Connection con = null;
                 PreparedStatement pstmt = null;

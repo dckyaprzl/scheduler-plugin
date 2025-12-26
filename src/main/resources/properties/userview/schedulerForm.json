@@ -45,7 +45,7 @@
               }
             },
             {
-              "className": "org.joget.apps.form.lib.TextField",
+              "className": "org.joget.apps.form.lib.HiddenField",
               "properties": {
                 "id": "trigger",
                 "workflowVariable": "",
@@ -185,7 +185,6 @@
                 "options": []
               }
             },
-
             {
               "className": "org.joget.apps.form.lib.SelectBox",
               "properties": {

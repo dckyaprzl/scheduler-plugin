@@ -51,7 +51,7 @@ public class SchedulerFormBinder extends FormBinder implements FormLoadBinder, F
         if (primaryKey != null && primaryKey.trim().length() > 0) {
             JobDefinitionDao jobDefinitionDao = (JobDefinitionDao) AppContext.getInstance().getAppContext().getBean("jobDefinitionDao");
             JobDefinition jobDefinition = jobDefinitionDao.get(primaryKey);
-            
+
             if (jobDefinition != null) {
                 FormRow row = new FormRow();
                 row.setId(jobDefinition.getId());
@@ -66,7 +66,7 @@ public class SchedulerFormBinder extends FormBinder implements FormLoadBinder, F
                 row.setProperty("pluginClass", jobDefinition.getPluginClass());
                 row.setProperty("pluginProperties", PropertyUtil.propertiesJsonLoadProcessing(jobDefinition.getPluginProperties()));
                 row.setProperty("trigger", jobDefinition.getTrigger());
-                
+
                 results.add(row);
             }
         }
@@ -78,13 +78,13 @@ public class SchedulerFormBinder extends FormBinder implements FormLoadBinder, F
         if (rows != null && !rows.isEmpty()) {
             JobDefinitionDao jobDefinitionDao = (JobDefinitionDao) AppContext.getInstance().getAppContext().getBean("jobDefinitionDao");
             FormRow row = rows.get(0);
-            JobDefinition jobDefinition = null; 
-            
+            JobDefinition jobDefinition = null;
+
             if (row.getProperty("pluginProperties") == null || row.getProperty("pluginProperties").isEmpty()) {
                 formData.addFormError("pluginClass", AppPluginUtil.getMessage("userview.scheduler.pleaseConfigure", SchedulerMenu.class.getName(), SchedulerMenu.MESSAGE_PATH));
                 return rows;
             }
-            
+
             if (row.getId() != null) {
                 jobDefinition = jobDefinitionDao.get(row.getId());
             }
@@ -92,7 +92,7 @@ public class SchedulerFormBinder extends FormBinder implements FormLoadBinder, F
                 jobDefinition = new JobDefinition();
                 jobDefinition.setId(UuidGenerator.getInstance().getUuid());
             }
-            
+
             jobDefinition.setAppId(row.getProperty("applicationId"));
             jobDefinition.setName(row.getProperty("name"));
             jobDefinition.setFrequencyType(row.getProperty("frequencyType"));
@@ -103,8 +103,50 @@ public class SchedulerFormBinder extends FormBinder implements FormLoadBinder, F
             jobDefinition.setSubject(row.getProperty("subject"));
             jobDefinition.setPluginClass(row.getProperty("pluginClass"));
             jobDefinition.setPluginProperties(PropertyUtil.propertiesJsonStoreProcessing(jobDefinition.getPluginProperties(), row.getProperty("pluginProperties")));
-            jobDefinition.setTrigger(row.getProperty("trigger"));
-            
+            String frequency = row.getProperty("frequencyType");
+            String hour = row.getProperty("hour");
+            String minute = row.getProperty("minute");
+            String dow = row.getProperty("dateOfWeek");
+            String dom = row.getProperty("dayOfMonth");
+
+            // validation dasar
+            if (hour == null || hour.isEmpty() || minute == null || minute.isEmpty()) {
+                formData.addFormError("hour", "Hour & Minute are required");
+                return rows;
+            }
+
+            String cron = null;
+
+            // DAILY
+            if ("daily".equalsIgnoreCase(frequency)) {
+                cron = "0 " + minute + " " + hour + " ? * * *";
+            }
+
+            // WEEKLY
+            else if ("weekly".equalsIgnoreCase(frequency)) {
+                if (dow == null || dow.isEmpty()) {
+                    formData.addFormError("dateOfWeek", "Please select Day of Week");
+                    return rows;
+                }
+                cron = "0 " + minute + " " + hour + " ? * " + dow + " *";
+            }
+
+            // MONTHLY
+            else if ("monthly".equalsIgnoreCase(frequency)) {
+                if (dom == null || dom.isEmpty()) {
+                    formData.addFormError("dayOfMonth", "Please select Day of Month");
+                    return rows;
+                }
+                cron = "0 " + minute + " " + hour + " " + dom + " * ? *";
+            }
+            else {
+                formData.addFormError("frequencyType", "Invalid Frequency");
+                return rows;
+            }
+
+            // SET KE JOB
+            jobDefinition.setTrigger(cron);
+
             SchedulerUtil.scheduleJob(jobDefinition);
             if (jobDefinition.getNextFireTime() != null) {
                 jobDefinitionDao.save(jobDefinition);
