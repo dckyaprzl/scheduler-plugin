@@ -121,6 +121,12 @@ public class SchedulerFormBinder extends FormBinder implements FormLoadBinder, F
             row.setProperty("hour", hour);
             row.setProperty("minute", minute);
 
+            jobDefinition.setFrequencyType(frequency);
+            jobDefinition.setHour(hour);
+            jobDefinition.setMinute(minute);
+            jobDefinition.setDateOfWeek(dow);
+            jobDefinition.setDayOfMonth(dom);
+
             String cron = null;
 
             // DAILY
