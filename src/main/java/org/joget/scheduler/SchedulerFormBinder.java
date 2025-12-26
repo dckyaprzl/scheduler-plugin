@@ -110,10 +110,16 @@ public class SchedulerFormBinder extends FormBinder implements FormLoadBinder, F
             String dom = row.getProperty("dayOfMonth");
 
             // validation dasar
-            if (hour == null || hour.isEmpty() || minute == null || minute.isEmpty()) {
-                formData.addFormError("hour", "Hour & Minute are required");
-                return rows;
+            if (hour == null || hour.trim().isEmpty()) {
+                hour = "0";
             }
+
+            if (minute == null || minute.trim().isEmpty()) {
+                minute = "0";
+            }
+
+            row.setProperty("hour", hour);
+            row.setProperty("minute", minute);
 
             String cron = null;
 
