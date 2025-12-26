@@ -1,199 +1,410 @@
 {
-    "className": "org.joget.apps.form.model.Form",
-    "properties": {
-        "id": "schedulerForm",
-        "loadBinder": {
-            "className": ""
-        },
-        "description": "",
-        "tableName": "schedulerForm",
-        "name": "schedulerForm",
-        "storeBinder": {
-            "className": ""
-        }
+  "className": "org.joget.apps.form.model.Form",
+  "properties": {
+    "id": "schedulerForm",
+    "loadBinder": {
+      "className": ""
     },
-    "elements": [
+    "description": "",
+    "tableName": "schedulerForm",
+    "name": "schedulerForm",
+    "storeBinder": {
+      "className": ""
+    }
+  },
+  "elements": [
+    {
+      "elements": [
         {
-            "elements": [
-                {
-                    "elements": [
-                        {
-                            "className": "org.joget.apps.form.lib.TextField",
-                            "properties": {
-                                "id": "name",
-                                "readonlyLabel": "",
-                                "workflowVariable": "",
-                                "storeNumeric": "",
-                                "maxlength": "",
-                                "style": "",
-                                "encryption": "",
-                                "placeholder": "",
-                                "validator": {
-                                    "className": "org.joget.apps.form.lib.DefaultValidator",
-                                    "properties": {
-                                        "message": "",
-                                        "mandatory": "true",
-                                        "custom-regex": "",
-                                        "type": ""
-                                    }
-                                },
-                                "requiredSanitize": "true",
-                                "value": "",
-                                "label": "@@userview.scheduler.jobName@@",
-                                "readonly": "",
-                                "size": ""
-                            }
-                        },
-                        {
-                            "className": "org.joget.apps.form.lib.TextField",
-                            "properties": {
-                                "id": "trigger",
-                                "workflowVariable": "",
-                                "readonlyLabel": "",
-                                "maxlength": "",
-                                "storeNumeric": "",
-                                "style": "",
-                                "encryption": "",
-                                "placeholder": "",
-                                "validator": {
-                                    "className": "org.joget.apps.form.lib.DefaultValidator",
-                                    "properties": {
-                                        "message": "",
-                                        "mandatory": "true",
-                                        "custom-regex": "",
-                                        "type": ""
-                                    }
-                                },
-                                "requiredSanitize": "true",
-                                "value": "",
-                                "label": "@@userview.scheduler.cron@@",
-                                "readonly": "",
-                                "size": ""
-                            }
-                        },
-                        {
-                            "className": "org.joget.apps.form.lib.CustomHTML",
-                            "properties": {
-                                "id": "field9",
-                                "autoPopulate": "",
-                                "value": "<i style=\"color:gray;\">@@userview.scheduler.syntax@@</i>",
-                                "label": " "
-                            }
-                        },
-                        {
-                            "className": "org.joget.apps.form.lib.SelectBox",
-                            "properties": {
-                                "id": "applicationId",
-                                "workflowVariable": "",
-                                "readonlyLabel": "",
-                                "optionsBinder": {
-                                    "className": "org.joget.apps.form.lib.BeanShellFormBinder",
-                                    "properties": {
-                                        "useAjax": "",
-                                        "script": "import java.util.Collection;\nimport org.joget.apps.app.service.AppUtil;\nimport org.joget.apps.app.dao.AppDefinitionDao;\nimport org.joget.apps.app.model.AppDefinition;\nimport org.joget.apps.form.service.FormUtil;\nimport org.joget.apps.form.model.FormRow;\nimport org.joget.apps.form.model.FormRowSet;\n\nAppDefinitionDao appDefinitionDao = (AppDefinitionDao) AppUtil.getApplicationContext().getBean(\"appDefinitionDao\");\nCollection appDefinitionList = appDefinitionDao.findPublishedApps(\"name\", Boolean.FALSE, null, null);\n\nFormRowSet rows = new FormRowSet();\n\nFormRow emptyRow = new FormRow();\nemptyRow.setProperty(FormUtil.PROPERTY_VALUE, \"\");\nemptyRow.setProperty(FormUtil.PROPERTY_LABEL, \"\");\nemptyRow.setProperty(FormUtil.PROPERTY_GROUPING, \"\");\nrows.add(emptyRow);\n\nfor (AppDefinition a : appDefinitionList) {\n    FormRow r = new FormRow();\n    r.setProperty(FormUtil.PROPERTY_VALUE, a.getAppId());\n    r.setProperty(FormUtil.PROPERTY_LABEL, a.getName());\n    rows.add(r);\n}\n                \nreturn rows;                "
-                                    }
-                                },
-                                "validator": {
-                                    "className": "org.joget.apps.form.lib.DefaultValidator",
-                                    "properties": {
-                                        "message": "",
-                                        "mandatory": "true",
-                                        "custom-regex": "",
-                                        "type": ""
-                                    }
-                                },
-                                "controlField": "",
-                                "value": "",
-                                "label": "@@userview.scheduler.app@@",
-                                "readonly": "",
-                                "multiple": "",
-                                "size": "",
-                                "options": []
-                            }
-                        },
-                        {
-                            "className": "org.joget.apps.form.lib.SelectBox",
-                            "properties": {
-                                "id": "pluginClass",
-                                "readonlyLabel": "",
-                                "workflowVariable": "",
-                                "optionsBinder": {
-                                    "className": "org.joget.apps.form.lib.BeanShellFormBinder",
-                                    "properties": {
-                                        "useAjax": "",
-                                        "script": "import java.util.Collection;\nimport org.springframework.util.ClassUtils;\nimport org.joget.plugin.base.Plugin;\nimport org.joget.plugin.base.PluginManager;\nimport org.joget.plugin.base.ApplicationPlugin;\nimport org.joget.apps.app.service.AppUtil;\nimport org.joget.apps.form.service.FormUtil;\nimport org.joget.apps.form.model.FormRow;\nimport org.joget.apps.form.model.FormRowSet;\n\nPluginManager pluginManager = (PluginManager) AppUtil.getApplicationContext().getBean(\"pluginManager\");\nCollection list = pluginManager.list(ApplicationPlugin.class);\n\nFormRowSet rows = new FormRowSet();\n\nFormRow emptyRow = new FormRow();\nemptyRow.setProperty(FormUtil.PROPERTY_VALUE, \"\");\nemptyRow.setProperty(FormUtil.PROPERTY_LABEL, \"\");\nemptyRow.setProperty(FormUtil.PROPERTY_GROUPING, \"\");\nrows.add(emptyRow);\n\nfor (Plugin plugin : list) {\n    FormRow r = new FormRow();\n    r.setProperty(FormUtil.PROPERTY_VALUE, ClassUtils.getUserClass(plugin).getName());\n    r.setProperty(FormUtil.PROPERTY_LABEL, plugin.getI18nLabel());\n    rows.add(r);\n}\n                \nreturn rows;                "
-                                    }
-                                },
-                                "validator": {
-                                    "className": "org.joget.apps.form.lib.DefaultValidator",
-                                    "properties": {
-                                        "message": "",
-                                        "mandatory": "true",
-                                        "custom-regex": "",
-                                        "type": ""
-                                    }
-                                },
-                                "value": "",
-                                "controlField": "",
-                                "label": "@@userview.scheduler.plugin@@",
-                                "multiple": "",
-                                "readonly": "",
-                                "options": [],
-                                "size": ""
-                            }
-                        },
-                        {
-                            "className": "org.joget.apps.form.lib.HiddenField",
-                            "properties": {
-                                "id": "pluginProperties",
-                                "workflowVariable": "",
-                                "value": "",
-                                "useDefaultWhenEmpty": ""
-                            }
-                        },
-                        {
-                            "className": "org.joget.apps.form.lib.HiddenField",
-                            "properties": {
-                                "id": "id",
-                                "workflowVariable": "",
-                                "value": "",
-                                "useDefaultWhenEmpty": ""
-                            }
-                        },
-                        {
-                            "className": "org.joget.apps.form.lib.CustomHTML",
-                            "properties": {
-                                "id": "field6",
-                                "autoPopulate": "",
-                                "value": "<a id=\"configPlugin\" class=\"button btn\">@@userview.scheduler.configPlugin@@</a>\n<script>\nwindow.updateProps = function(props) {\n    FormUtil.getField(\"pluginProperties\").val(props);\n    JPopup.hide(\"schedulerMenu\");\n}\n  var url = '%s';\n    function configPlugin() {\n        var pluginClass = FormUtil.getValue(\"pluginClass\");\n        var pluginProp = FormUtil.getValue(\"pluginProperties\");\n        var appId = FormUtil.getValue(\"applicationId\");\n        if (pluginClass !== \"\" && appId !== \"\") {\n            JPopup.show(\"schedulerMenu\", url, {\n                \"pluginClass\": pluginClass, \n                \"pluginProp\": pluginProp, \n                \"applicationId\": appId, \n                \"action\":\"config\"\n            }, '', '90%%', '90%%', 'post');\n        } else {\n            alert(\"@@userview.scheduler.pleaseSelect@@\");\n        }\n    }\n    $(document).ready(function(){\n        $(\"#configPlugin\").on(\"click\", function(){\n            configPlugin();\n            return false;\n        })\n    });\n</script>",
-                                "label": " ",
-                                "requiredSanitize": "true"
-                            }
-                        }
-                    ],
-                    "className": "org.joget.apps.form.model.Column",
-                    "properties": {
-                        "width": "100%%"
-                    }
-                }
-            ],
-            "className": "org.joget.apps.form.model.Section",
-            "properties": {
-                "id": "section1",
-                "loadBinder": {
-                    "className": "",
-                    "properties": {}
+          "elements": [
+            {
+              "className": "org.joget.apps.form.lib.TextField",
+              "properties": {
+                "id": "name",
+                "readonlyLabel": "",
+                "workflowVariable": "",
+                "storeNumeric": "",
+                "maxlength": "",
+                "style": "",
+                "encryption": "",
+                "placeholder": "",
+                "validator": {
+                  "className": "org.joget.apps.form.lib.DefaultValidator",
+                  "properties": {
+                    "message": "",
+                    "mandatory": "true",
+                    "custom-regex": "",
+                    "type": ""
+                  }
                 },
-                "storeBinder": {
-                    "className": "",
-                    "properties": {}
+                "requiredSanitize": "true",
+                "value": "",
+                "label": "@@userview.scheduler.jobName@@",
+                "readonly": "",
+                "size": ""
+              }
+            },
+            {
+              "className": "org.joget.apps.form.lib.TextField",
+              "properties": {
+                "id": "trigger",
+                "workflowVariable": "",
+                "readonlyLabel": "",
+                "maxlength": "",
+                "storeNumeric": "",
+                "style": "",
+                "encryption": "",
+                "placeholder": "",
+                "validator": {
+                  "className": "org.joget.apps.form.lib.DefaultValidator",
+                  "properties": {
+                    "message": "",
+                    "mandatory": "true",
+                    "custom-regex": "",
+                    "type": ""
+                  }
                 },
-                "label": "",
-                "permission": {
-                    "className": "",
-                    "properties": {}
-                }
+                "requiredSanitize": "true",
+                "value": "",
+                "label": "@@userview.scheduler.cron@@",
+                "readonly": "",
+                "size": ""
+              }
+            },
+            {
+              "className": "org.joget.apps.form.lib.CustomHTML",
+              "properties": {
+                "id": "field9",
+                "autoPopulate": "",
+                "value": "<i style=\"color:gray;\">@@userview.scheduler.syntax@@</i>",
+                "label": " "
+              }
+            },
+            {
+              "className": "org.joget.apps.form.lib.SelectBox",
+              "properties": {
+                "id": "frequencyType",
+                "workflowVariable": "",
+                "readonlyLabel": "",
+                "optionsBinder": {
+                  "className": "org.joget.apps.form.lib.BeanShellFormBinder",
+                  "properties": {
+                    "useAjax": ""
+                  }
+                },
+                "validator": {
+                  "className": "org.joget.apps.form.lib.DefaultValidator",
+                  "properties": {
+                    "message": "",
+                    "mandatory": "true",
+                    "custom-regex": "",
+                    "type": ""
+                  }
+                },
+                "controlField": "",
+                "value": "",
+                "label": "@@userview.scheduler.frequency@@",
+                "readonly": "",
+                "multiple": "",
+                "size": "",
+                "options": [
+                  {
+                    "value": "daily",
+                    "label": "Daily"
+                  },
+                  {
+                    "value": "weekly",
+                    "label": "Weekly"
+                  },
+                  {
+                    "value": "monthly",
+                    "label": "Monthly"
+                  }
+                ]
+              }
+            },
+            {
+              "className": "org.joget.apps.form.lib.SelectBox",
+              "properties": {
+                "id": "hour",
+                "workflowVariable": "",
+                "readonlyLabel": "",
+                "optionsBinder": {
+                  "className": "org.joget.apps.form.lib.BeanShellFormBinder",
+                  "properties": {
+                    "useAjax": "",
+                    "script": "import org.joget.apps.form.model.FormRow;\nimport org.joget.apps.form.model.FormRowSet;\nimport org.joget.apps.form.service.FormUtil;\n\nFormRowSet rows = new FormRowSet();\n\nFormRow empty = new FormRow();\nempty.setProperty(FormUtil.PROPERTY_VALUE, \"\");\nempty.setProperty(FormUtil.PROPERTY_LABEL, \"-- Select Hour --\");\nrows.add(empty);\n\nfor (int i = 0; i < 24; i++) {\n    FormRow r = new FormRow();\n    String val = \"\" + i;\n    String label = (i < 10) ? \"0\" + i : \"\" + i;\n    r.setProperty(FormUtil.PROPERTY_VALUE, val);\n    r.setProperty(FormUtil.PROPERTY_LABEL, label);\n    rows.add(r);\n}\n\nreturn rows;"
+                  }
+                },
+                "validator": {
+                  "className": "org.joget.apps.form.lib.DefaultValidator",
+                  "properties": {
+                    "message": "",
+                    "mandatory": "false",
+                    "custom-regex": "",
+                    "type": ""
+                  }
+                },
+                "controlField": "",
+                "value": "",
+                "label": "@@userview.scheduler.hour@@",
+                "readonly": "",
+                "multiple": "",
+                "size": "",
+                "options": []
+              }
+            },
+            {
+              "className": "org.joget.apps.form.lib.SelectBox",
+              "properties": {
+                "id": "minute",
+                "workflowVariable": "",
+                "readonlyLabel": "",
+                "optionsBinder": {
+                  "className": "org.joget.apps.form.lib.BeanShellFormBinder",
+                  "properties": {
+                    "useAjax": "",
+                    "script": "import org.joget.apps.form.model.FormRow;\nimport org.joget.apps.form.model.FormRowSet;\nimport org.joget.apps.form.service.FormUtil;\n\nFormRowSet rows = new FormRowSet();\n\nFormRow empty = new FormRow();\nempty.setProperty(FormUtil.PROPERTY_VALUE, \"\");\nempty.setProperty(FormUtil.PROPERTY_LABEL, \"-- Select Minute --\");\nrows.add(empty);\n\nfor (int i = 0; i < 60; i++) {\n    FormRow r = new FormRow();\n    String val = \"\" + i;\n    String label = (i < 10) ? \"0\" + i : \"\" + i;\n    r.setProperty(FormUtil.PROPERTY_VALUE, val);\n    r.setProperty(FormUtil.PROPERTY_LABEL, label);\n    rows.add(r);\n}\n\nreturn rows;"
+                  }
+                },
+                "validator": {
+                  "className": "org.joget.apps.form.lib.DefaultValidator",
+                  "properties": {
+                    "message": "",
+                    "mandatory": "false",
+                    "custom-regex": "",
+                    "type": ""
+                  }
+                },
+                "controlField": "",
+                "value": "",
+                "label": "@@userview.scheduler.minute@@",
+                "readonly": "",
+                "multiple": "",
+                "size": "",
+                "options": []
+              }
+            },
+
+            {
+              "className": "org.joget.apps.form.lib.SelectBox",
+              "properties": {
+                "id": "dateOfWeek",
+                "workflowVariable": "",
+                "readonlyLabel": "",
+                "optionsBinder": {
+                  "className": "org.joget.apps.form.lib.BeanShellFormBinder",
+                  "properties": {
+                    "useAjax": "",
+                    "script": "import org.joget.apps.form.model.FormRow;\nimport org.joget.apps.form.model.FormRowSet;\nimport org.joget.apps.form.service.FormUtil;\n\nFormRowSet rows = new FormRowSet();\n\n// empty option\nFormRow empty = new FormRow();\nempty.setProperty(FormUtil.PROPERTY_VALUE, \"\");\nempty.setProperty(FormUtil.PROPERTY_LABEL, \"-- Select Day --\");\nrows.add(empty);\n\n// Day of Week (Mon - Sun)\nString[][] days = {\n    {\"1\", \"Mon\"},\n    {\"2\", \"Tue\"},\n    {\"3\", \"Wed\"},\n    {\"4\", \"Thu\"},\n    {\"5\", \"Fri\"},\n    {\"6\", \"Sat\"},\n    {\"7\", \"Sun\"}\n};\n\nfor (String[] d : days) {\n    FormRow r = new FormRow();\n    r.setProperty(FormUtil.PROPERTY_VALUE, d[0]);\n    r.setProperty(FormUtil.PROPERTY_LABEL, d[1]);\n    rows.add(r);\n}\n\nreturn rows;\n"
+                  }
+                },
+                "validator": {
+                  "className": "org.joget.apps.form.lib.DefaultValidator",
+                  "properties": {
+                    "message": "",
+                    "mandatory": "false",
+                    "custom-regex": "",
+                    "type": ""
+                  }
+                },
+                "controlField": "",
+                "value": "",
+                "label": "@@userview.scheduler.dow@@",
+                "readonly": "",
+                "multiple": "",
+                "size": "",
+                "options": []
+              }
+            },
+            {
+              "className": "org.joget.apps.form.lib.CustomHTML",
+              "properties": {
+                "id": "frequencyController",
+                "label": " ",
+                "value": "<script>\n$(document).ready(function(){\n  function toggleDateOfWeek(){\n    var freq = FormUtil.getValue('frequencyType');\n\n    if(freq === 'weekly'){\n      $('[name=dateOfWeek]').closest('.form-cell').show();\n    } else {\n      $('[name=dateOfWeek]').closest('.form-cell').hide();\n      FormUtil.getField('dateOfWeek').val('');\n    }\n  }\n\n  toggleDateOfWeek();\n\n  $(document).on('change', '[name=frequencyType]', function(){\n    toggleDateOfWeek();\n  });\n});\n</script>"
+              }
+            },
+            {
+              "className": "org.joget.apps.form.lib.SelectBox",
+              "properties": {
+                "id": "dayOfMonth",
+                "workflowVariable": "",
+                "readonlyLabel": "",
+                "optionsBinder": {
+                  "className": "org.joget.apps.form.lib.BeanShellFormBinder",
+                  "properties": {
+                    "useAjax": "",
+                    "script": "import org.joget.apps.form.model.FormRow;\nimport org.joget.apps.form.model.FormRowSet;\nimport org.joget.apps.form.service.FormUtil;\n\nFormRowSet rows = new FormRowSet();\n\nFormRow empty = new FormRow();\nempty.setProperty(FormUtil.PROPERTY_VALUE, \"\");\nempty.setProperty(FormUtil.PROPERTY_LABEL, \"-- Select Day --\");\nrows.add(empty);\n\nfor (int i = 1; i <= 31; i++) {\n    FormRow r = new FormRow();\n    r.setProperty(FormUtil.PROPERTY_VALUE, String.valueOf(i));\n    r.setProperty(FormUtil.PROPERTY_LABEL, String.valueOf(i));\n    rows.add(r);\n}\n\nreturn rows;"
+                  }
+                },
+                "validator": {
+                  "className": "org.joget.apps.form.lib.DefaultValidator",
+                  "properties": {
+                    "message": "",
+                    "mandatory": "false",
+                    "custom-regex": "",
+                    "type": ""
+                  }
+                },
+                "controlField": "",
+                "value": "",
+                "label": "@@userview.scheduler.dom@@",
+                "readonly": "",
+                "multiple": "",
+                "size": "",
+                "options": []
+              }
+            },
+            {
+              "className": "org.joget.apps.form.lib.CustomHTML",
+              "properties": {
+                "id": "monthlyController",
+                "label": " ",
+                "value": "<script>\n$(document).ready(function(){\n  function toggleDayOfMonth(){\n    var freq = FormUtil.getValue('frequencyType');\n\n    if(freq === 'monthly'){\n      $('[name=dayOfMonth]').closest('.form-cell').show();\n    } else {\n      $('[name=dayOfMonth]').closest('.form-cell').hide();\n      FormUtil.getField('dayOfMonth').val('');\n    }\n  }\n\n  toggleDayOfMonth();\n\n  $(document).on('change', '[name=frequencyType]', function(){\n    toggleDayOfMonth();\n  });\n});\n</script>"
+              }
+            },
+            {
+              "className": "org.joget.apps.form.lib.SelectBox",
+              "properties": {
+                "id": "applicationId",
+                "workflowVariable": "",
+                "readonlyLabel": "",
+                "optionsBinder": {
+                  "className": "org.joget.apps.form.lib.BeanShellFormBinder",
+                  "properties": {
+                    "useAjax": "",
+                    "script": "import java.util.Collection;\nimport org.joget.apps.app.service.AppUtil;\nimport org.joget.apps.app.dao.AppDefinitionDao;\nimport org.joget.apps.app.model.AppDefinition;\nimport org.joget.apps.form.service.FormUtil;\nimport org.joget.apps.form.model.FormRow;\nimport org.joget.apps.form.model.FormRowSet;\n\nAppDefinitionDao appDefinitionDao = (AppDefinitionDao) AppUtil.getApplicationContext().getBean(\"appDefinitionDao\");\nCollection appDefinitionList = appDefinitionDao.findPublishedApps(\"name\", Boolean.FALSE, null, null);\n\nFormRowSet rows = new FormRowSet();\n\nFormRow emptyRow = new FormRow();\nemptyRow.setProperty(FormUtil.PROPERTY_VALUE, \"\");\nemptyRow.setProperty(FormUtil.PROPERTY_LABEL, \"\");\nemptyRow.setProperty(FormUtil.PROPERTY_GROUPING, \"\");\nrows.add(emptyRow);\n\nfor (AppDefinition a : appDefinitionList) {\n    FormRow r = new FormRow();\n    r.setProperty(FormUtil.PROPERTY_VALUE, a.getAppId());\n    r.setProperty(FormUtil.PROPERTY_LABEL, a.getName());\n    rows.add(r);\n}\n                \nreturn rows;                "
+                  }
+                },
+                "validator": {
+                  "className": "org.joget.apps.form.lib.DefaultValidator",
+                  "properties": {
+                    "message": "",
+                    "mandatory": "true",
+                    "custom-regex": "",
+                    "type": ""
+                  }
+                },
+                "controlField": "",
+                "value": "",
+                "label": "@@userview.scheduler.app@@",
+                "readonly": "",
+                "multiple": "",
+                "size": "",
+                "options": []
+              }
+            },
+            {
+              "className": "org.joget.apps.form.lib.SelectBox",
+              "properties": {
+                "id": "pluginClass",
+                "readonlyLabel": "",
+                "workflowVariable": "",
+                "optionsBinder": {
+                  "className": "org.joget.apps.form.lib.BeanShellFormBinder",
+                  "properties": {
+                    "useAjax": "",
+                    "script": "import java.util.Collection;\nimport org.springframework.util.ClassUtils;\nimport org.joget.plugin.base.Plugin;\nimport org.joget.plugin.base.PluginManager;\nimport org.joget.plugin.base.ApplicationPlugin;\nimport org.joget.apps.app.service.AppUtil;\nimport org.joget.apps.form.service.FormUtil;\nimport org.joget.apps.form.model.FormRow;\nimport org.joget.apps.form.model.FormRowSet;\n\nPluginManager pluginManager = (PluginManager) AppUtil.getApplicationContext().getBean(\"pluginManager\");\nCollection list = pluginManager.list(ApplicationPlugin.class);\n\nFormRowSet rows = new FormRowSet();\n\nFormRow emptyRow = new FormRow();\nemptyRow.setProperty(FormUtil.PROPERTY_VALUE, \"\");\nemptyRow.setProperty(FormUtil.PROPERTY_LABEL, \"\");\nemptyRow.setProperty(FormUtil.PROPERTY_GROUPING, \"\");\nrows.add(emptyRow);\n\nfor (Plugin plugin : list) {\n    FormRow r = new FormRow();\n    r.setProperty(FormUtil.PROPERTY_VALUE, ClassUtils.getUserClass(plugin).getName());\n    r.setProperty(FormUtil.PROPERTY_LABEL, plugin.getI18nLabel());\n    rows.add(r);\n}\n                \nreturn rows;                "
+                  }
+                },
+                "validator": {
+                  "className": "org.joget.apps.form.lib.DefaultValidator",
+                  "properties": {
+                    "message": "",
+                    "mandatory": "true",
+                    "custom-regex": "",
+                    "type": ""
+                  }
+                },
+                "value": "",
+                "controlField": "",
+                "label": "@@userview.scheduler.plugin@@",
+                "multiple": "",
+                "readonly": "",
+                "options": [],
+                "size": ""
+              }
+            },
+            {
+              "className": "org.joget.apps.form.lib.HiddenField",
+              "properties": {
+                "id": "pluginProperties",
+                "workflowVariable": "",
+                "value": "",
+                "useDefaultWhenEmpty": ""
+              }
+            },
+            {
+              "className": "org.joget.apps.form.lib.HiddenField",
+              "properties": {
+                "id": "id",
+                "workflowVariable": "",
+                "value": "",
+                "useDefaultWhenEmpty": ""
+              }
+            },
+            {
+              "className": "org.joget.apps.form.lib.CustomHTML",
+              "properties": {
+                "id": "field6",
+                "autoPopulate": "",
+                "value": "<a id=\"configPlugin\" class=\"button btn\">@@userview.scheduler.configPlugin@@</a>\n<script>\nwindow.updateProps = function(props) {\n    FormUtil.getField(\"pluginProperties\").val(props);\n    JPopup.hide(\"schedulerMenu\");\n}\n  var url = '%s';\n    function configPlugin() {\n        var pluginClass = FormUtil.getValue(\"pluginClass\");\n        var pluginProp = FormUtil.getValue(\"pluginProperties\");\n        var appId = FormUtil.getValue(\"applicationId\");\n        if (pluginClass !== \"\" && appId !== \"\") {\n            JPopup.show(\"schedulerMenu\", url, {\n                \"pluginClass\": pluginClass, \n                \"pluginProp\": pluginProp, \n                \"applicationId\": appId, \n                \"action\":\"config\"\n            }, '', '90%%', '90%%', 'post');\n        } else {\n            alert(\"@@userview.scheduler.pleaseSelect@@\");\n        }\n    }\n    $(document).ready(function(){\n        $(\"#configPlugin\").on(\"click\", function(){\n            configPlugin();\n            return false;\n        })\n    });\n</script>",
+                "label": " ",
+                "requiredSanitize": "true"
+              }
+            },
+            {
+              "className": "org.joget.apps.form.lib.TextArea",
+              "properties": {
+                "id": "subject",
+                "readonlyLabel": "",
+                "workflowVariable": "",
+                "storeNumeric": "",
+                "maxlength": "",
+                "style": "",
+                "encryption": "",
+                "placeholder": "",
+                "validator": {
+                  "className": "org.joget.apps.form.lib.DefaultValidator",
+                  "properties": {
+                    "message": "",
+                    "mandatory": "true",
+                    "custom-regex": "",
+                    "type": ""
+                  }
+                },
+                "requiredSanitize": "true",
+                "value": "",
+                "label": "@@userview.scheduler.subject@@",
+                "readonly": "",
+                "size": ""
+              }
             }
+          ],
+          "className": "org.joget.apps.form.model.Column",
+          "properties": {
+            "width": "100%%"
+          }
         }
-    ]
+      ],
+      "className": "org.joget.apps.form.model.Section",
+      "properties": {
+        "id": "section1",
+        "loadBinder": {
+          "className": "",
+          "properties": {}
+        },
+        "storeBinder": {
+          "className": "",
+          "properties": {}
+        },
+        "label": "",
+        "permission": {
+          "className": "",
+          "properties": {}
+        }
+      }
+    }
+  ]
 }

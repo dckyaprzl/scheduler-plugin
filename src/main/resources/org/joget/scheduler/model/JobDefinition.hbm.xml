@@ -4,6 +4,12 @@
     <class entity-name="JobDefinition" name="org.joget.scheduler.model.JobDefinition" table="sch_job_def">
         <id column="id" name="id" type="string"/>
         <property column="name" name="name" type="string"/>
+        <property column="frequencyType" name="frequencyType" type="string"/>
+        <property column="hour" name="hour" type="string"/>
+        <property column="minute" name="minute" type="string"/>
+        <property column="dateOfWeek" name="dateOfWeek" type="string"/>
+        <property column="dayOfMonth" name="dayOfMonth" type="string"/>
+        <property column="subject" name="subject" type="string"/>
         <property column="appId" name="appId" type="string"/>
         <property column="pluginClass" name="pluginClass" type="string"/>
         <property column="pluginProperties" name="pluginProperties" type="text"/>

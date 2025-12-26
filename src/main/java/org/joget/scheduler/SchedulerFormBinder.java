@@ -57,6 +57,12 @@ public class SchedulerFormBinder extends FormBinder implements FormLoadBinder, F
                 row.setId(jobDefinition.getId());
                 row.setProperty("applicationId", jobDefinition.getAppId());
                 row.setProperty("name", jobDefinition.getName());
+                row.setProperty("frequencyType", jobDefinition.getFrequencyType());
+                row.setProperty("hour", jobDefinition.getHour());
+                row.setProperty("minute", jobDefinition.getMinute());
+                row.setProperty("dateOfWeek", jobDefinition.getDateOfWeek());
+                row.setProperty("dayOfMonth", jobDefinition.getDayOfMonth());
+                row.setProperty("subject", jobDefinition.getSubject());
                 row.setProperty("pluginClass", jobDefinition.getPluginClass());
                 row.setProperty("pluginProperties", PropertyUtil.propertiesJsonLoadProcessing(jobDefinition.getPluginProperties()));
                 row.setProperty("trigger", jobDefinition.getTrigger());
@@ -89,6 +95,12 @@ public class SchedulerFormBinder extends FormBinder implements FormLoadBinder, F
             
             jobDefinition.setAppId(row.getProperty("applicationId"));
             jobDefinition.setName(row.getProperty("name"));
+            jobDefinition.setFrequencyType(row.getProperty("frequencyType"));
+            jobDefinition.setHour(row.getProperty("hour"));
+            jobDefinition.setMinute(row.getProperty("minute"));
+            jobDefinition.setDateOfWeek(row.getProperty("dateOfWeek"));
+            jobDefinition.setDayOfMonth(row.getProperty("dayOfMonth"));
+            jobDefinition.setSubject(row.getProperty("subject"));
             jobDefinition.setPluginClass(row.getProperty("pluginClass"));
             jobDefinition.setPluginProperties(PropertyUtil.propertiesJsonStoreProcessing(jobDefinition.getPluginProperties(), row.getProperty("pluginProperties")));
             jobDefinition.setTrigger(row.getProperty("trigger"));

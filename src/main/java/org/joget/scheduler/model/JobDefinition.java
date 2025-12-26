@@ -5,6 +5,12 @@ import java.util.Date;
 public class JobDefinition {
     private String id;
     private String name;
+    private String subject;
+    private String frequencyType;
+    private String hour;
+    private String minute;
+    private String dateOfWeek;
+    private String dayOfMonth;
     private String appId;
     private String pluginClass;
     private String pluginProperties;
@@ -26,6 +32,54 @@ public class JobDefinition {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getFrequencyType() {
+        return frequencyType;
+    }
+
+    public void setFrequencyType(String frequencyType) {
+        this.frequencyType = frequencyType;
+    }
+
+    public String getHour() {
+        return hour;
+    }
+
+    public void setHour(String hour) {
+        this.hour = hour;
+    }
+
+    public String getMinute() {
+        return minute;
+    }
+
+    public void setMinute(String minute) {
+        this.minute = minute;
+    }
+
+    public String getDateOfWeek() {
+        return dateOfWeek;
+    }
+
+    public void setDateOfWeek(String dateOfWeek) {
+        this.dateOfWeek = dateOfWeek;
+    }
+
+    public String getDayOfMonth() {
+        return dayOfMonth;
+    }
+
+    public void setDayOfMonth(String dayOfMonth) {
+        this.dayOfMonth = dayOfMonth;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     public String getAppId() {
