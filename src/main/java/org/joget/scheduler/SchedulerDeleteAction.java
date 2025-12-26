@@ -44,20 +44,24 @@ public class SchedulerDeleteAction extends DataListActionDefault {
     }
 
     public String getConfirmation() {
-        return getPropertyString("confirmation"); //get confirmation from configured properties options
+        return WorkflowUtil.getMessage(
+            "userview.scheduler.delete.confirm",
+            getClass().getName(),
+            null
+        );
     }
 
     public DataListActionResult executeAction(DataList dataList, String[] rowKeys) {
         DataListActionResult result = new DataListActionResult();
         result.setType(DataListActionResult.TYPE_REDIRECT);
         result.setUrl("REFERER");
-        
+
         // only allow POST
         HttpServletRequest request = WorkflowUtil.getHttpServletRequest();
         if (request != null && !"POST".equalsIgnoreCase(request.getMethod())) {
             return result;
         }
-        
+
         // check for submited rows
         if (rowKeys != null && rowKeys.length > 0) {
             JobDefinitionDao jobDefinitionDao = (JobDefinitionDao) AppContext.getInstance().getAppContext().getBean("jobDefinitionDao");
@@ -68,8 +72,11 @@ public class SchedulerDeleteAction extends DataListActionDefault {
                 jobDefinitionLogDao.deleteByJobId(r);
                 jobDefinitionDao.delete(r);
             }
+            redirectUrl = redirectUrl
+            + (redirectUrl.contains("?") ? "&" : "?")
+            + "schedulerDeleteSuccess=true";
         }
-        
+        result.setUrl(redirectUrl);
         return result;
     }
 
