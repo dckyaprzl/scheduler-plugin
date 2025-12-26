@@ -221,8 +221,8 @@
               "className": "org.joget.apps.form.lib.CustomHTML",
               "properties": {
                 "id": "frequencyController",
-                "label": " ",
-                "value": "<script>\n$(document).ready(function(){\n  function toggleDateOfWeek(){\n    var freq = FormUtil.getValue('frequencyType');\n\n    if(freq === 'weekly'){\n      $('[name=dateOfWeek]').closest('.form-cell').show();\n    } else {\n      $('[name=dateOfWeek]').closest('.form-cell').parent().hide();\n      FormUtil.getField('dateOfWeek').val('');\n    }\n  }\n\n  toggleDateOfWeek();\n\n  $(document).on('change', '[name=frequencyType]', function(){\n    toggleDateOfWeek();\n  });\n});\n</script>"
+                "label": "",
+                "value": "<script>\n$(document).ready(function(){\n  function toggleDateOfWeek(){\n    var freq = FormUtil.getValue('frequencyType');\n\n    if(freq === 'weekly'){\n      $('[name=dateOfWeek]').closest('.form-cell').show();\n    } else {\n      $('[name=dateOfWeek]').closest('.form-cell').hide();\n      FormUtil.getField('dateOfWeek').val('');\n    }\n  }\n\n  toggleDateOfWeek();\n\n  $(document).on('change', '[name=frequencyType]', function(){\n    toggleDateOfWeek();\n  });\n});\n</script>"
               }
             },
             {
@@ -260,8 +260,8 @@
               "className": "org.joget.apps.form.lib.CustomHTML",
               "properties": {
                 "id": "monthlyController",
-                "label": " ",
-                "value": "<script>\n$(document).ready(function(){\n  function toggleDayOfMonth(){\n    var freq = FormUtil.getValue('frequencyType');\n\n    if(freq === 'monthly'){\n      $('[name=dayOfMonth]').closest('.form-cell').show();\n    } else {\n      $('[name=dayOfMonth]').closest('.form-cell').parent().hide();\n      FormUtil.getField('dayOfMonth').val('');\n    }\n  }\n\n  toggleDayOfMonth();\n\n  $(document).on('change', '[name=frequencyType]', function(){\n    toggleDayOfMonth();\n  });\n});\n</script>"
+                "label": "",
+                "value": "<script>\n$(document).ready(function(){\n  function toggleDayOfMonth(){\n    var freq = FormUtil.getValue('frequencyType');\n\n    if(freq === 'monthly'){\n      $('[name=dayOfMonth]').closest('.form-cell').show();\n    } else {\n      $('[name=dayOfMonth]').closest('.form-cell').hide();\n      FormUtil.getField('dayOfMonth').val('');\n    }\n  }\n\n  toggleDayOfMonth();\n\n  $(document).on('change', '[name=frequencyType]', function(){\n    toggleDayOfMonth();\n  });\n});\n</script>"
               }
             },
             {
