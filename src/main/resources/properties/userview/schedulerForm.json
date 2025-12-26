@@ -201,8 +201,8 @@
                 "validator": {
                   "className": "org.joget.apps.form.lib.DefaultValidator",
                   "properties": {
-                    "message": "Date Of Week is required.",
-                    "mandatory": "true",
+                    "message": "",
+                    "mandatory": "false",
                     "custom-regex": "",
                     "type": ""
                   }
@@ -240,8 +240,8 @@
                 "validator": {
                   "className": "org.joget.apps.form.lib.DefaultValidator",
                   "properties": {
-                    "message": "Day Of Month is required.",
-                    "mandatory": "true",
+                    "message": "",
+                    "mandatory": "false",
                     "custom-regex": "",
                     "type": ""
                   }
