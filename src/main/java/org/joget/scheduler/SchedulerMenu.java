@@ -322,8 +322,8 @@ public class SchedulerMenu extends UserviewMenu implements PluginWebSupport {
             if (!formData.getStay() && (errors == null || errors.isEmpty())) {
                 String mode = getRequestParameterString("_mode");
                 String redirectUrl = getPropertyString("redirectUrlAfterComplete");
+                setAlertMessage("Job has been added successfully.");
                 setRedirectUrl(redirectUrl);
-                setAlertMessage(getPropertyString(mode + "-messageShowAfterComplete"));
                 // render normal template
                 formHtml = formService.generateElementHtml(form, formData);
             } else {

@@ -72,15 +72,6 @@
               }
             },
             {
-              "className": "org.joget.apps.form.lib.CustomHTML",
-              "properties": {
-                "id": "field9",
-                "autoPopulate": "",
-                "value": "<i style=\"color:gray;\">@@userview.scheduler.syntax@@</i>",
-                "label": " "
-              }
-            },
-            {
               "className": "org.joget.apps.form.lib.SelectBox",
               "properties": {
                 "id": "frequencyType",
@@ -139,7 +130,7 @@
                 "validator": {
                   "className": "org.joget.apps.form.lib.DefaultValidator",
                   "properties": {
-                    "message": "Hour is required.",
+                    "message": "",
                     "mandatory": "false",
                     "custom-regex": "",
                     "type": ""
@@ -170,7 +161,7 @@
                 "validator": {
                   "className": "org.joget.apps.form.lib.DefaultValidator",
                   "properties": {
-                    "message": "Minute is required.",
+                    "message": "",
                     "mandatory": "false",
                     "custom-regex": "",
                     "type": ""
