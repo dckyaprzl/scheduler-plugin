@@ -31,7 +31,7 @@
                 "validator": {
                   "className": "org.joget.apps.form.lib.DefaultValidator",
                   "properties": {
-                    "message": "",
+                    "message": "Job Name is required.",
                     "mandatory": "true",
                     "custom-regex": "",
                     "type": ""
@@ -95,7 +95,7 @@
                 "validator": {
                   "className": "org.joget.apps.form.lib.DefaultValidator",
                   "properties": {
-                    "message": "",
+                    "message": "Frequency Type is required.",
                     "mandatory": "true",
                     "custom-regex": "",
                     "type": ""
@@ -139,7 +139,7 @@
                 "validator": {
                   "className": "org.joget.apps.form.lib.DefaultValidator",
                   "properties": {
-                    "message": "",
+                    "message": "Hour is required.",
                     "mandatory": "false",
                     "custom-regex": "",
                     "type": ""
@@ -170,7 +170,7 @@
                 "validator": {
                   "className": "org.joget.apps.form.lib.DefaultValidator",
                   "properties": {
-                    "message": "",
+                    "message": "Minute is required.",
                     "mandatory": "false",
                     "custom-regex": "",
                     "type": ""
@@ -201,8 +201,8 @@
                 "validator": {
                   "className": "org.joget.apps.form.lib.DefaultValidator",
                   "properties": {
-                    "message": "",
-                    "mandatory": "false",
+                    "message": "Date Of Week is required.",
+                    "mandatory": "true",
                     "custom-regex": "",
                     "type": ""
                   }
@@ -240,8 +240,8 @@
                 "validator": {
                   "className": "org.joget.apps.form.lib.DefaultValidator",
                   "properties": {
-                    "message": "",
-                    "mandatory": "false",
+                    "message": "Day Of Month is required.",
+                    "mandatory": "true",
                     "custom-regex": "",
                     "type": ""
                   }
@@ -279,7 +279,7 @@
                 "validator": {
                   "className": "org.joget.apps.form.lib.DefaultValidator",
                   "properties": {
-                    "message": "",
+                    "message": "App is required.",
                     "mandatory": "true",
                     "custom-regex": "",
                     "type": ""
@@ -310,7 +310,7 @@
                 "validator": {
                   "className": "org.joget.apps.form.lib.DefaultValidator",
                   "properties": {
-                    "message": "",
+                    "message": "Plugin is required.",
                     "mandatory": "true",
                     "custom-regex": "",
                     "type": ""
@@ -367,7 +367,7 @@
                 "validator": {
                   "className": "org.joget.apps.form.lib.DefaultValidator",
                   "properties": {
-                    "message": "",
+                    "message": "Subject is required.",
                     "mandatory": "true",
                     "custom-regex": "",
                     "type": ""
