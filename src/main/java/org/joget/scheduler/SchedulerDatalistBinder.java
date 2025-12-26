@@ -65,7 +65,7 @@ public class SchedulerDatalistBinder extends DataListBinderDefault {
     }
 
     @Override
-    public DataListCollection getData(DataList dataList, Map properties, DataListFilterQueryObject[] filterQueryObjects, String sort, Boolean asc, Integer start, Integer rows) {
+    public DataListCollection getData(DataList dataList, Map properties, DataListFilterQueryObject[] filterQueryObjects, String sort, Boolean desc, Integer start, Integer rows) {
         alterOracleSession();
         DataListCollection resultList = new DataListCollection();
 
@@ -74,9 +74,9 @@ public class SchedulerDatalistBinder extends DataListBinderDefault {
 
             Collection data = null;
             if (jobId == null) {
-                data = getDao().find(criteria.getQuery(), criteria.getValues(), sort, asc, start, rows);
+                data = getDao().find(criteria.getQuery(), criteria.getValues(), sort, desc, start, rows);
             } else {
-                data = getLogDao().findByJobId(jobId, criteria.getQuery(), criteria.getValues(), sort, asc, start, rows);
+                data = getLogDao().findByJobId(jobId, criteria.getQuery(), criteria.getValues(), sort, desc, start, rows);
             }
 
             if (data != null & !data.isEmpty()) {
