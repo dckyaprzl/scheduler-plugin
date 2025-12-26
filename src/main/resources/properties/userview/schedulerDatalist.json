@@ -34,28 +34,6 @@
     },
     {
       "id": "filter_1",
-      "name": "appId",
-      "filterParamName": "d-4667836-fn_applicationId",
-      "label": "@@userview.scheduler.app@@",
-      "type": {
-        "className": "org.joget.plugin.enterprise.SelectBoxDataListFilterType",
-        "properties": {
-          "multiple": "textfield",
-          "size": "",
-          "defaultValue": "",
-          "options": [],
-          "optionsBinder": {
-            "className": "org.joget.apps.form.lib.BeanShellFormBinder",
-            "properties": {
-              "script": "import java.util.Collection;\nimport org.joget.apps.app.service.AppUtil;\nimport org.joget.apps.app.dao.AppDefinitionDao;\nimport org.joget.apps.app.model.AppDefinition;\nimport org.joget.apps.form.service.FormUtil;\nimport org.joget.apps.form.model.FormRow;\nimport org.joget.apps.form.model.FormRowSet;\n\nAppDefinitionDao appDefinitionDao = (AppDefinitionDao) AppUtil.getApplicationContext().getBean(\"appDefinitionDao\");\nCollection appDefinitionList = appDefinitionDao.findPublishedApps(\"name\", Boolean.FALSE, null, null);\n\nFormRowSet rows = new FormRowSet();\n\nFormRow emptyRow = new FormRow();\nemptyRow.setProperty(FormUtil.PROPERTY_VALUE, \"\");\nemptyRow.setProperty(FormUtil.PROPERTY_LABEL, \"\");\nemptyRow.setProperty(FormUtil.PROPERTY_GROUPING, \"\");\nrows.add(emptyRow);\n\nfor (AppDefinition a : appDefinitionList) {\n    FormRow r = new FormRow();\n    r.setProperty(FormUtil.PROPERTY_VALUE, a.getAppId());\n    r.setProperty(FormUtil.PROPERTY_LABEL, a.getName());\n    rows.add(r);\n}\n                \nreturn rows;                ",
-              "useAjax": ""
-            }
-          }
-        }
-      }
-    },
-    {
-      "id": "filter_2",
       "name": "pluginClass",
       "filterParamName": "d-4667836-fn_pluginClass",
       "label": "@@userview.scheduler.plugin@@",
@@ -70,6 +48,28 @@
             "className": "org.joget.apps.form.lib.BeanShellFormBinder",
             "properties": {
               "script": "import java.util.Collection;\nimport org.springframework.util.ClassUtils;\nimport org.joget.plugin.base.Plugin;\nimport org.joget.plugin.base.PluginManager;\nimport org.joget.plugin.base.ApplicationPlugin;\nimport org.joget.apps.app.service.AppUtil;\nimport org.joget.apps.form.service.FormUtil;\nimport org.joget.apps.form.model.FormRow;\nimport org.joget.apps.form.model.FormRowSet;\n\nPluginManager pluginManager = (PluginManager) AppUtil.getApplicationContext().getBean(\"pluginManager\");\nCollection list = pluginManager.list(ApplicationPlugin.class);\n\nFormRowSet rows = new FormRowSet();\n\nFormRow emptyRow = new FormRow();\nemptyRow.setProperty(FormUtil.PROPERTY_VALUE, \"\");\nemptyRow.setProperty(FormUtil.PROPERTY_LABEL, \"\");\nemptyRow.setProperty(FormUtil.PROPERTY_GROUPING, \"\");\nrows.add(emptyRow);\n\nfor (Plugin plugin : list) {\n    FormRow r = new FormRow();\n    r.setProperty(FormUtil.PROPERTY_VALUE, ClassUtils.getUserClass(plugin).getName());\n    r.setProperty(FormUtil.PROPERTY_LABEL, plugin.getI18nLabel());\n    rows.add(r);\n}\n                \nreturn rows;                ",
+              "useAjax": ""
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "filter_2",
+      "name": "appId",
+      "filterParamName": "d-4667836-fn_applicationId",
+      "label": "@@userview.scheduler.app@@",
+      "type": {
+        "className": "org.joget.plugin.enterprise.SelectBoxDataListFilterType",
+        "properties": {
+          "multiple": "textfield",
+          "size": "",
+          "defaultValue": "",
+          "options": [],
+          "optionsBinder": {
+            "className": "org.joget.apps.form.lib.BeanShellFormBinder",
+            "properties": {
+              "script": "import java.util.Collection;\nimport org.joget.apps.app.service.AppUtil;\nimport org.joget.apps.app.dao.AppDefinitionDao;\nimport org.joget.apps.app.model.AppDefinition;\nimport org.joget.apps.form.service.FormUtil;\nimport org.joget.apps.form.model.FormRow;\nimport org.joget.apps.form.model.FormRowSet;\n\nAppDefinitionDao appDefinitionDao = (AppDefinitionDao) AppUtil.getApplicationContext().getBean(\"appDefinitionDao\");\nCollection appDefinitionList = appDefinitionDao.findPublishedApps(\"name\", Boolean.FALSE, null, null);\n\nFormRowSet rows = new FormRowSet();\n\nFormRow emptyRow = new FormRow();\nemptyRow.setProperty(FormUtil.PROPERTY_VALUE, \"\");\nemptyRow.setProperty(FormUtil.PROPERTY_LABEL, \"\");\nemptyRow.setProperty(FormUtil.PROPERTY_GROUPING, \"\");\nrows.add(emptyRow);\n\nfor (AppDefinition a : appDefinitionList) {\n    FormRow r = new FormRow();\n    r.setProperty(FormUtil.PROPERTY_VALUE, a.getAppId());\n    r.setProperty(FormUtil.PROPERTY_LABEL, a.getName());\n    rows.add(r);\n}\n                \nreturn rows;                ",
               "useAjax": ""
             }
           }
