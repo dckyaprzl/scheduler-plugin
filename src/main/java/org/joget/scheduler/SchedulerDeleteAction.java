@@ -2,6 +2,7 @@ package org.joget.scheduler;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.joget.apps.app.service.AppPluginUtil;
 import org.joget.apps.app.service.AppUtil;
 import org.joget.apps.datalist.model.DataList;
 import org.joget.apps.datalist.model.DataListActionDefault;
@@ -72,6 +73,7 @@ public class SchedulerDeleteAction extends DataListActionDefault {
                 jobDefinitionLogDao.deleteByJobId(r);
                 jobDefinitionDao.delete(r);
             }
+            result.setMessage("Job scheduler(s) deleted successfully.");
         }
         return result;
     }
