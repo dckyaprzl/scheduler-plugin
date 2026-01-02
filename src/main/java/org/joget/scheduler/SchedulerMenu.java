@@ -52,9 +52,9 @@ import org.springframework.context.ApplicationContext;
 
 public class SchedulerMenu extends UserviewMenu implements PluginWebSupport {
     public final static String MESSAGE_PATH = "messages/SchedulerMenu";
-    
+
     private DataList cacheDataList = null;
-    
+
     @Override
     public String getCategory() {
         return "Enterprise";
@@ -92,7 +92,7 @@ public class SchedulerMenu extends UserviewMenu implements PluginWebSupport {
         //support i18n
         return AppPluginUtil.getMessage("org.joget.scheduler.SchedulerMenu.pluginLabel", getClassName(), MESSAGE_PATH);
     }
-     
+
     public String getDescription() {
         //support i18n
         return AppPluginUtil.getMessage("org.joget.scheduler.SchedulerMenu.pluginDesc", getClassName(), MESSAGE_PATH);
@@ -106,17 +106,17 @@ public class SchedulerMenu extends UserviewMenu implements PluginWebSupport {
     public String getPropertyOptions() {
         return AppUtil.readPluginResource(getClass().getName(), "/properties/userview/schedulerMenu.json", null, true, MESSAGE_PATH);
     }
-    
+
     @Override
     public String getJspPage() {
-        if (!SchedulerUtil.isSchedulerExist()) {    
+        if (!SchedulerUtil.isSchedulerExist()) {
             setProperty("view", "formView");
             setProperty("formHtml", "<p>Sorry, this feature is not supported in your installation.</p>");
             return "userview/plugin/form.jsp";
         }
-        
+
         String mode = getRequestParameterString("_mode");
-        
+
         if ("add".equals(mode) || "edit".equals(mode)) {
             setProperty("customHeader", getPropertyString(mode + "-customHeader"));
             setProperty("customFooter", getPropertyString(mode + "-customFooter"));
@@ -132,7 +132,7 @@ public class SchedulerMenu extends UserviewMenu implements PluginWebSupport {
             return handleList(null);
         }
     }
-    
+
     protected String addParamToUrl(String url, String name, String value) {
         return StringUtil.addParamsToUrl(url, name, value);
     }
@@ -146,9 +146,9 @@ public class SchedulerMenu extends UserviewMenu implements PluginWebSupport {
         try {
             // get data list
             DataList dataList = getDataList(type);
-            
+
             if (dataList != null) {
-                
+
                 //overide datalist result to use userview result
                 DataListActionResult ac = dataList.getActionResult();
                 if (ac != null) {
@@ -190,17 +190,17 @@ public class SchedulerMenu extends UserviewMenu implements PluginWebSupport {
             // get datalist
             DataListService dataListService = (DataListService) AppUtil.getApplicationContext().getBean("dataListService");
             String json = null;
-            
+
             if ("log".equals(type)) {
                 json = AppUtil.readPluginResource(getClass().getName(), "/properties/userview/schedulerLogDatalist.json", null, true, MESSAGE_PATH);
             } else {
                 String newLabel = (getPropertyString("list-newButtonLabel") != null && getPropertyString("list-newButtonLabel").trim().length() > 0) ? getPropertyString("list-newButtonLabel") : ResourceBundleUtil.getMessage("userview.crudmenu.button.new");
                 json = AppUtil.readPluginResource(getClass().getName(), "/properties/userview/schedulerDatalist.json", new String[]{newLabel}, true, MESSAGE_PATH);
             }
-            
+
             cacheDataList = dataListService.fromJson(json);
             cacheDataList.setDisableQuickEdit(true);
-            
+
             if ("log".equals(type)) {
                 String id = getRequestParameterString("jobid");
                 cacheDataList.setBinder(new SchedulerDatalistBinder(id));
@@ -246,7 +246,7 @@ public class SchedulerMenu extends UserviewMenu implements PluginWebSupport {
         }
         editProperties.put("hrefColumn", primaryKeyColumn);
         dataList.addDataListAction("org.joget.apps.datalist.lib.HyperlinkDataListAction", DataList.DATALIST_ROW_ACTION, editProperties);
-        
+
         //Add log row action
         Map logProperties = new HashMap();
         logProperties.put("id", "job_log");
@@ -256,7 +256,7 @@ public class SchedulerMenu extends UserviewMenu implements PluginWebSupport {
         logProperties.put("hrefColumn", primaryKeyColumn);
         logProperties.put("target", "popup");
         dataList.addDataListAction("org.joget.apps.datalist.lib.HyperlinkDataListAction", DataList.DATALIST_ROW_ACTION, logProperties);
-        
+
         return dataList;
     }
 
@@ -267,7 +267,7 @@ public class SchedulerMenu extends UserviewMenu implements PluginWebSupport {
             if (request != null && !"POST".equalsIgnoreCase(request.getMethod())) {
                 return "userview/plugin/unauthorized.jsp";
             }
-            
+
             // submit form
             submitForm();
         } else {
@@ -322,7 +322,11 @@ public class SchedulerMenu extends UserviewMenu implements PluginWebSupport {
             if (!formData.getStay() && (errors == null || errors.isEmpty())) {
                 String mode = getRequestParameterString("_mode");
                 String redirectUrl = getPropertyString("redirectUrlAfterComplete");
-                setAlertMessage("Job has been added successfully.");
+                if (id != null && !id.isEmpty()) {
+                    setAlertMessage("Job has been updated successfully.");
+                } else {
+                    setAlertMessage("Job has been added successfully.");
+                }
                 setRedirectUrl(redirectUrl);
                 // render normal template
                 formHtml = formService.generateElementHtml(form, formData);
@@ -331,7 +335,7 @@ public class SchedulerMenu extends UserviewMenu implements PluginWebSupport {
                 formHtml = formService.generateElementErrorHtml(form, formData);
                 errorCount = errors.size();
             }
-            
+
             if (formData.getStay()) {
                 setAlertMessage("");
                 setRedirectUrl("");
@@ -354,7 +358,7 @@ public class SchedulerMenu extends UserviewMenu implements PluginWebSupport {
 
         Map requestParams = getRequestParameters();
         requestParams.put("_mode", getPropertyString("mode"));
-        
+
         // set primary key
         formData.setPrimaryKeyValue(primaryKeyValue);
         formData = formService.retrieveFormDataFromRequestMap(formData, requestParams);
@@ -390,11 +394,11 @@ public class SchedulerMenu extends UserviewMenu implements PluginWebSupport {
                 cancelLabel = getPropertyString("edit-backButtonLabel");
             }
         }
-        
+
         String formJson = AppUtil.readPluginResource(getClass().getName(), "/properties/userview/schedulerForm.json", new Object[]{getServiceUrl()}, true, MESSAGE_PATH);
         formJson = AppUtil.processHashVariable(formJson, null, StringUtil.TYPE_JSON, null);
-        form = (Form) formService.loadFormFromJson(formJson, formData); 
-        
+        form = (Form) formService.loadFormFromJson(formJson, formData);
+
         if (form != null) {
             SchedulerFormBinder binder = new SchedulerFormBinder();
             form.setLoadBinder(binder);
@@ -402,7 +406,7 @@ public class SchedulerMenu extends UserviewMenu implements PluginWebSupport {
             form = formService.loadFormData(form, formData);
             form.setProperty("removeQuickEdit", "true");
             form = appService.viewDataForm(form, null, submitLabel, cancelLabel, "window", formData, formUrl, getUrl());
-        
+
             // make primary key read-only
             Element el = FormUtil.findElement(FormUtil.PROPERTY_ID, form, formData);
             if (el != null) {
@@ -452,7 +456,7 @@ public class SchedulerMenu extends UserviewMenu implements PluginWebSupport {
         actionProperties.put("visible", Boolean.toString(visible));
         return actionProperties;
     }
-    
+
     protected String getServiceUrl() {
         AppDefinition appDef = AppUtil.getCurrentAppDefinition();
         String userviewId = getUserview().getPropertyString("id");
@@ -465,31 +469,31 @@ public class SchedulerMenu extends UserviewMenu implements PluginWebSupport {
         try {
             nonce = URLEncoder.encode(nonce, "UTF-8");
         } catch (Exception e) {}
-        
+
         String url = WorkflowUtil.getHttpServletRequest().getContextPath() + "/web/json/app/"+appDef.getId()+"/"+appDef.getVersion()+"/plugin/org.joget.scheduler.SchedulerMenu/service?userviewId=" + userviewId + "&menuId=" + menuId + "&key=" + key + "&_nonce=" + nonce;
         return url;
     }
-    
+
     public void webService(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        
+
         try {
             String userviewId = request.getParameter("userviewId");
             String key = request.getParameter("key");
             String menuId = request.getParameter("menuId");
             AppDefinition appDef = AppUtil.getCurrentAppDefinition();
-            
+
             String nonce = request.getParameter("_nonce");
             if (!SecurityUtil.verifyNonce(nonce, new String[]{"SchudulerMenu", appDef.getAppId(), appDef.getVersion().toString(), userviewId, key, menuId})) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 return;
             }
-            
+
             if ("config".equals(action)) {
                 String submit = request.getParameter("submit");
                 String pluginClass = request.getParameter("pluginClass");
                 String pluginProperties = request.getParameter("pluginProp");
-                
+
                 if ("post".equalsIgnoreCase(request.getMethod()) && "true".equals(submit)) {
                     pluginProperties = request.getParameter("pluginProperties");
                     write("<script>window.parent.updateProps(\""+StringUtil.escapeString(pluginProperties, StringUtil.TYPE_JSON, null)+"\");</script>", response);
@@ -497,17 +501,17 @@ public class SchedulerMenu extends UserviewMenu implements PluginWebSupport {
                     AppService appService = (AppService) AppUtil.getApplicationContext().getBean("appService");
                     PluginManager pluginManager = (PluginManager) AppUtil.getApplicationContext().getBean("pluginManager");
                     PluginDefaultPropertiesDao pluginDefaultPropertiesDao = (PluginDefaultPropertiesDao) AppUtil.getApplicationContext().getBean("pluginDefaultPropertiesDao");
-                    
+
                     AppDefinition selectedAppDef = appService.getPublishedAppDefinition(request.getParameter("applicationId"));
                     Plugin plugin = pluginManager.getPlugin(pluginClass);
-                    
+
                     Map<String, Object> modelMap = new HashMap<String, Object>();
                     modelMap.put("properties", pluginProperties);
-                    
+
                     if (plugin != null) {
                         modelMap.put("propertyEditable", (PropertyEditable) plugin);
                         modelMap.put("plugin", plugin);
-                        
+
                         PluginDefaultProperties pluginDefaultProperties = pluginDefaultPropertiesDao.loadById(pluginClass, selectedAppDef);
 
                         if (pluginDefaultProperties != null) {
@@ -543,14 +547,14 @@ public class SchedulerMenu extends UserviewMenu implements PluginWebSupport {
             response.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }
     }
-    
+
     protected String fixI18nForNoneAdminUser(String content) {
         if(!WorkflowUtil.isCurrentUserInRole("ROLE_ADMIN")) {
             Pattern pattern = Pattern.compile("<script type=\\\"text/javascript\\\" src=\\\".+/web/console/i18n/peditor.+\\\"></script>");
             Matcher matcher = pattern.matcher(content);
             while (matcher.find()) {
                 String script = matcher.group();
-                
+
                 Properties keys = new Properties();
                 //get message key from property file
                 InputStream inputStream = null;
@@ -567,7 +571,7 @@ public class SchedulerMenu extends UserviewMenu implements PluginWebSupport {
                         replace += "function get_peditor_msg(key){\n" +
                                    "    return (peditor_lang[key] !== undefined) ? peditor_lang[key] : '??'+key+'??';\n" +
                                    "}\n</script>";
-                        
+
                         content = content.replaceAll(StringUtil.escapeRegex(script), StringUtil.escapeRegex(replace));
                     }
                 } catch (Exception e) {
@@ -582,23 +586,23 @@ public class SchedulerMenu extends UserviewMenu implements PluginWebSupport {
             }
         }
         return content;
-    } 
-    
+    }
+
     protected void write(String content, HttpServletResponse response) throws IOException {
         response.setContentType("text/html");
         PrintWriter writer = response.getWriter();
         writer.write(content);
     }
-    
+
     protected String fixMissingLabel(String content) {
         content = content.replaceAll(StringUtil.escapeRegex("???"), StringUtil.escapeRegex("@@"));
         PluginManager pluginManager = (PluginManager)AppUtil.getApplicationContext().getBean("pluginManager");
         content = pluginManager.processPluginTranslation(content, getClassName(), null);
         content = content.replaceAll(StringUtil.escapeRegex("@@"), StringUtil.escapeRegex("???"));
-        
+
         return content;
     }
-    
+
     public static void deleteJob(String jobId) {
         JobDefinitionDao jobDefinitionDao = (JobDefinitionDao) AppContext.getInstance().getAppContext().getBean("jobDefinitionDao");
         JobDefinition jobDefinition = jobDefinitionDao.get(jobId);
