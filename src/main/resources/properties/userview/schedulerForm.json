@@ -29,7 +29,7 @@
                 "encryption": "",
                 "placeholder": "",
                 "validator": {
-                  "className": "org.joget.apps.form.lib.DefaultValidator",
+                  "className": "org.joget.scheduler.JobNameValidator",
                   "properties": {
                     "message": "Job Name is required.",
                     "mandatory": "true",
