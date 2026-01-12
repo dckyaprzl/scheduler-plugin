@@ -18,8 +18,8 @@ public class Activator implements BundleActivator {
         //Register plugin here
         registrationList.add(context.registerService(SchedulerMenu.class.getName(), new SchedulerMenu(), null));
         registrationList.add(context.registerService(JobNameValidator.class.getName(), new JobNameValidator(), null));
-        
-        if ((HostManager.isVirtualHostEnabled() && isDefaultProfile()) || !HostManager.isVirtualHostEnabled()) {    
+
+        if ((HostManager.isVirtualHostEnabled() && isDefaultProfile()) || !HostManager.isVirtualHostEnabled()) {
             SchedulerUtil.initSchedulers();
         }
     }
@@ -28,7 +28,7 @@ public class Activator implements BundleActivator {
         if ((HostManager.isVirtualHostEnabled() && isDefaultProfile()) || !HostManager.isVirtualHostEnabled()) {
             SchedulerUtil.stop();
         }
-        
+
         for (ServiceRegistration registration : registrationList) {
             registration.unregister();
         }
